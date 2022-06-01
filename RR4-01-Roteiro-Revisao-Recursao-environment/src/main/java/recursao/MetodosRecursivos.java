@@ -1,58 +1,77 @@
 package recursao;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class MetodosRecursivos {
 
 	public int calcularSomaArray(int[] array){
-		int result = 0;        
-		// TODO ESCREVA AQUI O CÓDIGO (USANDO RECURSAO) PARA CALCULAR A SOMA
-		// DOS EMENTOS DE UM ARRAY
-		return result;
+	    return soma(array, 0);	
 	}
 
+    private int soma(int[] array, int indice) {
+        if(indice == array.length) 
+            return 0;
+        return array[indice] + soma(array, indice + 1);
+    }
+
 	public long calcularFatorial(int n) {
-	    if(n == 0)
-            return 1;
-        long resultado = n * calcularFatorial(n - 1);
-        System.out.println(n + "! = " + resultado);
-        return resultado;
+	    if(n == 0) {
+                System.out.println("0! = 1");
+                return 1;
+            }
+            long resultado = n * calcularFatorial(n - 1);
+            System.out.println(n + "! = " + resultado);
+            return resultado;
 	}
 
     public int calcularFibonacci(int n) {
+        int[] numeros = new int[n];
+        numeros[0] = 1;
+        numeros[1] = 1;
+        this.fib(n, numeros);
+        System.out.println(Arrays.toString(numeros));
+        return numeros[n - 1];
+    }
+
+    private int fib(int n, int[] numeros) {
+        if(n == 1 || n == 2)
+            return 1;
         
+        int numero = fib(n - 1, numeros) + fib(n - 2, numeros);
+        numeros[n - 1] = numero;
+        return numero;
     }
 
     public int countNotNull(Object[] array) {
-        int result = 0;
-        // TODO IMPLEMENTE AQUI O CODIGO QUE CONTA (USANDO RECURSAO) A
-        // QUANTIDADE DE ELEMENTOS NAO NULOS
-        // DE UM ARRAY DE OBJETOS RECEBIDO COMO PARAMETRO
-        return result;
+       return count(array, 0); 
+    }
+
+    private int count(Object[] array, int index) {
+        if(index == array.length)
+            return 0;
+        int valor = array[index] instanceof Object ? 1 : 0;
+        return valor + count(array, index + 1);
     }
 
 	public long potenciaDe2(int expoente) {
-		int result = 1;
-		// TODO IMPLEMENTE (USANDO RECURSAO) O CODIGO PARA PRODUZIR A N-ESIMA
-		// POTENCIA
-		// DE 2
-		return result;
+	    if(expoente == 0)
+            return 1;
+        if(expoente == 1)
+            return 2;
+        return 2 * potenciaDe2(expoente - 1);    
 	}
 
 	public double progressaoAritmetica(double termoInicial, double razao, int n) {
-		double result = 0;
-		// TODO IMPLEMENTE SEU CODIGO (USANDO RECURSAO) DE ENCONTRAR O n-ESIMO
-		// TERMO
-		// DA PROGRESSAO ARITMETICA, DADO O TERMO INICIAL E A RAZAO
-		// VOCE NAO PODE USAR A FORMULA QUE CALCULA O N-ESIMO TERMO. DEVE USAR RECURSAO
-		return result;
+	    if(n == 1)
+            return termoInicial;
+        return razao + progressaoAritmetica(termoInicial, razao, n - 1);
 	}
 
 	public double progressaoGeometrica(double termoInicial, double razao, int n) {
-		double result = 1;
-		// TODO IMPLEMENTE SEU CODIGO (USANDO RECURSAO) DE ENCONTRAR O n-ESIMO
-		// TERMO
-		// DA PROGRESSAO GEOMETRICA, DADO O TERMO INICIAL E A RAZAO
-		// VOCE NAO PODE USAR A FORMULA QUE CALCULA O N-ESIMO TERMO. DEVE USAR RECURSAO
-		return result;
+		if(n == 1)
+            return termoInicial;
+        return razao * progressaoAritmetica(termoInicial, razao, n - 1);
 	}
 	
 	
