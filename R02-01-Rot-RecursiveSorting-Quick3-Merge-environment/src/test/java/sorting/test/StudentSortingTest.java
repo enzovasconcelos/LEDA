@@ -8,6 +8,8 @@ import org.junit.Test;
 
 import sorting.AbstractSorting;
 import sorting.divideAndConquer.*;
+import sorting.divideAndConquer.hybridMergesort.HybridMergeSort;
+import sorting.divideAndConquer.quicksort3.QuickSortMedianOfThree;
 
 public class StudentSortingTest {
 
@@ -37,9 +39,7 @@ public class StudentSortingTest {
 	 * do aluno
 	 */
 	private void getImplementation() {
-		// TODO O aluno deve instanciar sua implementação abaixo ao invés de
-		// null
-		this.implementation = new MergeSort<>();
+		this.implementation = new QuickSortMedianOfThree<>();
 	}
 
 	public void populaVetorTamanhoPar(Integer[] arrayPadrao) {
@@ -106,4 +106,41 @@ public class StudentSortingTest {
 	 * SEGUIR A ESTRUTURA DOS MÉTODOS DE TESTE ACIMA DESCRITOS, ORDENANDO APENAS
 	 * UMA PARTE DO ARRAY.
 	 */
+
+    public void testIndiceForaDosLimites(Integer[] array) {
+        Integer[] estadoOriginal = Arrays.copyOf(array, array.length);
+        this.implementation.sort(array, 0, array.length);
+        this.implementation.sort(array, -1, array.length - 1);
+        // Não deve ter modificado o array
+        Assert.assertArrayEquals(estadoOriginal, array);
+    }
+
+    @Test
+    public void testForaLimite1() {
+        testIndiceForaDosLimites(this.vetorTamPar);
+    }
+
+    @Test
+    public void testForaLimite2() {
+        testIndiceForaDosLimites(this.vetorTamImpar);
+    }
+
+    @Test
+    public void testForaLimite3() {
+        testIndiceForaDosLimites(this.vetorValoresIguais);
+    }
+
+    /**
+     * Verifica se o método ordena em um determinado pedaço do array
+     * e mantém os índices do começo e do final sem alterações
+     */
+    @Test
+    public void testPedacoArray() {
+        Integer[] numeros = new Integer[] {12, 1, 5, 9, 6, 8, 4, 2, 0, 
+            1, 2};
+        Integer[] estadoFinal = new Integer[] {12, 1, 0, 2, 4, 5, 6, 
+            8, 9, 1, 2}; 
+        this.implementation.sort(numeros, 2, 8);
+        Assert.assertArrayEquals(numeros, estadoFinal);
+    }
 }

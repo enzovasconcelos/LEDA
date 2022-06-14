@@ -1,6 +1,8 @@
 package sorting.divideAndConquer.hybridMergesort;
 
 import sorting.AbstractSorting;
+import static util.Util.swap;
+import java.util.Arrays;
 
 /**
  * A classe HybridMergeSort representa a implementação de uma variação do
@@ -30,7 +32,56 @@ public class HybridMergeSort<T extends Comparable<T>> extends
 	protected static int INSERTIONSORT_APPLICATIONS = 0;
 
 	public void sort(T[] array, int leftIndex, int rightIndex) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented yet!");
+        if(leftIndex < 0 || rightIndex >= array.length)
+            return;
+
+        T[] pedaco = Arrays.copyOfRange(array, leftIndex, rightIndex + 1);
+        System.out.println(Arrays.toString(pedaco));
+	    this.MERGESORT_APPLICATIONS = 0;	
+	    this.INSERTIONSORT_APPLICATIONS = 0;
+        int lengthInput = rightIndex - leftIndex + 1;
+        if(lengthInput <= this.SIZE_LIMIT) {
+            insertionSort(array, leftIndex, rightIndex);
+            return;
+        }
+        int middleIndex = (leftIndex + rightIndex) / 2;
+        sort(array, leftIndex, middleIndex);
+        sort(array, middleIndex + 1, rightIndex);
+        merge(array, leftIndex, rightIndex);
+        pedaco = Arrays.copyOfRange(array, leftIndex, rightIndex + 1);
+        System.out.println(Arrays.toString(pedaco));
 	}
+
+    private void insertionSort(T[] array, int leftIndex, int rightIndex) {
+        this.INSERTIONSORT_APPLICATIONS++;
+        for(int indiceDesordenado = 1; indiceDesordenado <= rightIndex; indiceDesordenado++) {
+            for(int indiceAtual = indiceDesordenado; indiceAtual > leftIndex; indiceAtual--) {
+                if(array[indiceAtual].compareTo(array[indiceAtual - 1]) >= 0)
+                    break;
+                swap(array, indiceAtual, indiceAtual - 1);
+            }
+        }
+    }
+
+    private void merge(T[] array, int leftIndex, int rightIndex) {
+        this.MERGESORT_APPLICATIONS++;
+        T[] helper = Arrays.copyOf(array, array.length);
+        int iArray1 = leftIndex;
+        int middleIndex = (leftIndex + rightIndex) / 2;
+        int iArray2 = middleIndex + 1;
+        int indiceArray = leftIndex;
+        while(iArray1 <= middleIndex && iArray2 <= rightIndex) {
+            if(helper[iArray1].compareTo(helper[iArray2]) <= 0)
+                array[indiceArray] = helper[iArray1++];
+            else
+                array[indiceArray] = helper[iArray2++];
+            indiceArray++;
+        }
+        while(iArray1 <= middleIndex) {
+            array[indiceArray++] = helper[iArray1++];
+        }
+        while(iArray2 <= middleIndex) {
+            array[indiceArray++] = helper[iArray2++];
+        }
+    }
 }
