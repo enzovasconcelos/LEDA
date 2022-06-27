@@ -1,5 +1,8 @@
 package orderStatistic;
 
+import java.util.HashMap;
+import static util.Util.swap;
+
 /**
  * Uma implementacao da interface KLargest que usa estatisticas de ordem para 
  * retornar um array com os k maiores elementos de um conjunto de dados/array.
@@ -29,9 +32,14 @@ public class KLargestOrderStatisticsImpl<T extends Comparable<T>> implements KLa
 
 	@Override
 	public T[] getKLargest(T[] array, int k) {
-		// TODO Implement your code here
-		throw new UnsupportedOperationException("Not implemented yet!");
-		//este metodo deve obrigatoriamente usar o orderStatistics abaixo.
+        if(k > array.length)
+            return (T[]) new Comparable[0];
+	    T[] largests = (T[]) new Comparable[k];
+        for(int currentIndex = 0; currentIndex < k; currentIndex++) {
+            int order = array.length - k + currentIndex + 1;
+            largests[currentIndex] = orderStatistics(array, order);
+        }    
+        return largests;
 	}
 
 	/**
@@ -46,7 +54,60 @@ public class KLargestOrderStatisticsImpl<T extends Comparable<T>> implements KLa
 	 * @return
 	 */
 	public T orderStatistics(T[] array, int k){
-		// TODO Implement your code here
-		throw new UnsupportedOperationException("Not implemented yet!");		
+	    if(!estaOrdenado(array))
+            quickSort(array, 0, array.length - 1);
+        return array[k - 1];        
 	}
+
+    private boolean estaOrdenado(T[] array) {
+        for(int i = 1; i < array.length; i++) {
+            if(array[i].compareTo(array[i - 1]) < 0)
+                return false;
+        }
+        return true;
+    }
+
+    private void quickSort(T[] array, int leftIndex, int rightIndex) {
+        if(leftIndex >= rightIndex) 
+            return;
+        int pivotIndex = particiona(array, leftIndex, rightIndex);
+        quickSort(array, leftIndex, pivotIndex - 1);
+        quickSort(array, pivotIndex + 1, rightIndex);
+    }
+
+    private int particiona(T[] array, int leftIndex, int rightIndex) {
+        selectPivot(array, leftIndex, rightIndex);
+        T pivot = array[leftIndex];
+        int i = leftIndex; int j = rightIndex;
+        while(i <= j) {
+            if(array[i].compareTo(pivot) > 0) {
+                while(array[j].compareTo(pivot) > 0) {
+                    j--;
+                }
+                if(j < i) break;
+                swap(array, i, j);
+            }
+            i++;
+        }
+        swap(array, j, leftIndex);
+        return j;
+    }
+
+    private void selectPivot(T[] array, int leftIndex, int rightIndex) {
+        int middleIndex = (leftIndex + rightIndex) / 2;
+        HashMap<Integer, Integer> removidos = new HashMap<>(3);
+        int[] orders = new int[3];
+        for(int orderIndex = 0; orderIndex < 3; orderIndex++) {
+            int smallestIndex = leftIndex;
+            if(!removidos.containsKey(middleIndex) && 
+               array[middleIndex].compareTo(array[smallestIndex]) < 0)
+                smallestIndex = middleIndex;
+            if(!removidos.containsKey(rightIndex) && 
+               array[rightIndex].compareTo(array[smallestIndex]) < 0)
+                smallestIndex = rightIndex;
+            orders[orderIndex] = smallestIndex;
+            removidos.put(smallestIndex, 1);
+        }
+        swap(array, leftIndex, orders[1]);
+    }
 }

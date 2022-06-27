@@ -1,5 +1,8 @@
 package orderStatistic;
 
+import static util.Util.swap;
+import java.util.HashMap;
+
 /**
  * O quickselect eh um algoritmo baseado no quicksort para
  * descobrir/selectionar, em tempo linear, a k-esima estatistica de ordem
@@ -42,7 +45,54 @@ public class QuickSelect<T extends Comparable<T>> {
 	 *
 	 */
 	public T quickSelect(T[] array, int k) {
-		// TODO Implement your code here
-		throw new UnsupportedOperationException("Not implemented yet!");
+	    if(array.length == 0 || k > array.length || k < 1)
+            return null;    
+        return quickSelectRec(array, k, 0, array.length - 1); 
 	}
+
+    private T quickSelectRec(T[] array, int k, int left, int right) {
+        int pivotIndex = particiona(array, left, right);
+        if(pivotIndex == k - 1)
+            return array[pivotIndex];
+        if(k - 1 > pivotIndex)
+            return quickSelectRec(array, k, pivotIndex + 1, right);
+        else
+            return quickSelectRec(array, k, left, pivotIndex - 1);
+    }
+
+    private int particiona(T[] array, int leftIndex, int rightIndex) {
+        selectPivot(array, leftIndex, rightIndex);
+        T pivot = array[leftIndex];
+        int i = leftIndex + 1; int j = rightIndex;
+        while(i <= j) {
+            if(array[i].compareTo(pivot) > 0) {
+                while(j >= i && array[j].compareTo(pivot) > 0) {
+                    j--;
+                }
+                if(i > j) break;
+                swap(array, i, j);
+            }
+            i++;
+        }
+        swap(array, leftIndex, j);
+        return j;
+    }
+
+    private void selectPivot(T[] array, int leftIndex, int rightIndex) {
+        int middleIndex = (leftIndex + rightIndex) / 2;
+        HashMap<Integer, Integer> removidos = new HashMap<>(3);
+        int[] orders = new int[3];
+        for(int orderIndex = 0; orderIndex < 3; orderIndex++) {
+            int smallestIndex = leftIndex;
+            if(!removidos.containsKey(middleIndex) && 
+               array[middleIndex].compareTo(array[smallestIndex]) < 0)
+                smallestIndex = middleIndex;
+            if(!removidos.containsKey(rightIndex) && 
+               array[rightIndex].compareTo(array[smallestIndex]) < 0)
+                smallestIndex = rightIndex;
+            orders[orderIndex] = smallestIndex;
+            removidos.put(smallestIndex, 1);
+        }
+        swap(array, leftIndex, orders[1]);
+    }       
 }
