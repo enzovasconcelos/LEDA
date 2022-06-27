@@ -1,6 +1,7 @@
 package sorting.linearSorting;
 
 import sorting.AbstractSorting;
+import java.util.Arrays;
 
 /**
  * Classe que implementa a estratégia de Counting Sort vista em sala.
@@ -20,30 +21,35 @@ public class CountingSort extends AbstractSorting<Integer> {
 	    if(leftIndex < 0 || rightIndex >= array.length)
             return;
 
-        if(leftIndex >= rightIndex)
+        if(estaOrdenado(array, leftIndex, rightIndex))
             return;
 
         Integer[] valores = encontraMaiorEMenor(array, leftIndex, rightIndex);
         Integer menor = valores[0];
         Integer maior = valores[1];
-        int tamanhoArray = maior - menor + 1;
-        int[] frequencia = new int[tamanhoArray];
+        int[] frequencia = new int[maior - menor + 1];
         
         // Conta frequência
         for(int index = leftIndex; index <= rightIndex; index++) {
             frequencia[array[index] - menor] += 1;
         }
+        // Soma acumulada da frequência
+        for(int index = 1; index < frequencia.length; index++) {
+            frequencia[index] = frequencia[index] + frequencia[index - 1];
+        }
 
-        // Ordena
-        int indiceArray = rightIndex;
-        for(int index = tamanhoArray - 1; index >= 0; index--) {
-            if(frequencia[index] == 0) continue;
-            int element = index + menor;
-            int vezes = frequencia[index];
-            for(int vez = 0; vez < vezes; vez++) {
-                array[indiceArray] = element;
-                indiceArray--;
-            }
+        // Ordena os elementos em helper
+        int[] helper = new int[rightIndex - leftIndex + 1];
+        for(int index = rightIndex; index >= leftIndex; index--) {
+            int positionHelper = frequencia[array[index] - menor] - 1;
+            helper[positionHelper] = array[index];
+            frequencia[array[index] - menor] -= 1;
+        }
+        
+        // Copia helper para o array original
+        int indexHelper = 0;
+        for(int index = leftIndex; index <= rightIndex; index++) {
+            array[index] = helper[indexHelper++];
         }
 	}
 
@@ -57,6 +63,14 @@ public class CountingSort extends AbstractSorting<Integer> {
                 maior = array[index];
         }
         return new Integer[] {menor, maior};
+    }
+
+    private boolean estaOrdenado(Integer[] array, int leftIndex, int rightIndex) {
+        for(int index = leftIndex + 1; index <= rightIndex; index++) {
+            if(array[index] < array[index - 1])
+                return false;
+        }
+        return true;
     }
 
 }
