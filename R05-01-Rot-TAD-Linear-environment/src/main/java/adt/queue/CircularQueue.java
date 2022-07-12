@@ -16,32 +16,54 @@ public class CircularQueue<T> implements Queue<T> {
 
 	@Override
 	public void enqueue(T element) throws QueueOverflowException {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented yet!");
+        if(isFull())
+            throw new QueueOverflowException();
+        if(element != null) {
+            if(isEmpty())
+                head++;
+            tail++;
+            int position = tail % this.array.length;
+            this.array[position] = element;
+            this.elements++;
+        } 
 	}
 
 	@Override
 	public T dequeue() throws QueueUnderflowException {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented yet!");
+	    if(isEmpty())
+            throw new QueueUnderflowException();
+        T oldest = this.array[this.head];
+        if(this.tail == this.head) {
+            this.head = -1;
+            this.tail = -1;
+        }
+        else {
+            this.head = (this.head + 1) % this.array.length;
+        } 
+        this.elements--;
+        return oldest;
 	}
 
 	@Override
 	public T head() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented yet!");
+	    if(isEmpty())
+            return null;
+        return this.array[this.head];    
 	}
 
 	@Override
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented yet!");
+	    return this.head == -1;	
 	}
 
 	@Override
 	public boolean isFull() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented yet!");
+	    return this.elements == this.array.length;
+        // return (this.head + this.tail) == this.array.length - 1;
 	}
+
+    public int elements() {
+        return this.elements;
+    }
 
 }

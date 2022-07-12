@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2022-07-11T19:25:05.398-0300</date>
+  <logger>ENZO DINIZ VASCONCELOS</logger>
+  <level>FINE</level>
+  <message>File 120211072-ENZO DINIZ VASCONCELOS.zip was received. It was sent by ENZO DINIZ VASCONCELOS from IP 10.0.0.105 at 11-07-2022 19*25*05</message>
+</record>
+</log>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2022-07-11T21:58:32.130-0300</date>
+  <logger>ENZO DINIZ VASCONCELOS</logger>
+  <level>FINE</level>
+  <message>File 120211072-ENZO DINIZ VASCONCELOS.zip was received. It was sent by ENZO DINIZ VASCONCELOS from IP 10.0.0.105 at 11-07-2022 21*58*32</message>
+</record>

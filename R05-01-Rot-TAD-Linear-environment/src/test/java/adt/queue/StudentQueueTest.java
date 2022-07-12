@@ -31,10 +31,9 @@ public class StudentQueueTest {
 	}
 
 	private void getImplementations() {
-		// TODO O aluno deve ajustar aqui para instanciar sua implementação
-		queue1 = new QueueImpl<>(4);
-		queue2 = new QueueImpl<>(2);
-		queue3 = new QueueImpl<>(4);
+		queue1 = new QueueUsingStack<>(4);
+		queue2 = new QueueUsingStack<>(2);
+		queue3 = new QueueUsingStack<>(4);
 	}
 
 	// MÉTODOS DE TESTE
@@ -66,7 +65,8 @@ public class StudentQueueTest {
 
 	@Test(expected = QueueOverflowException.class)
 	public void testEnqueueComErro() throws QueueOverflowException {
-        queue1.enqueue(new Integer(5));
+        // assertTrue(queue1.isFull());
+        queue1.enqueue(5);
 		queue1.enqueue(new Integer(5)); // vai depender do tamanho que a fila
 										// foi iniciada!!!
 	}
