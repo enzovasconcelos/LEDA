@@ -1,5 +1,7 @@
 package adt.linkedList;
 
+import java.util.ArrayList;
+
 public class RecursiveSingleLinkedListImpl<T> implements LinkedList<T> {
 
 	protected T data;
@@ -12,39 +14,66 @@ public class RecursiveSingleLinkedListImpl<T> implements LinkedList<T> {
 
 	@Override
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented yet!");
+	    return this.data == null;	
 	}
 
 	@Override
 	public int size() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented yet!");
+	    if(isEmpty())
+            return 0;
+        return 1 + next.size();     
 	}
 
 	@Override
 	public T search(T element) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented yet!");
+        if(isEmpty())
+           return null;
+        if(getData().equals(element))
+           return getData(); 
+        return getNext().search(element);
 	}
 
 	@Override
 	public void insert(T element) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented yet!");
+	    if(isEmpty()) {
+            setData(element);
+            setNext(new RecursiveSingleLinkedListImpl<T>());
+        } else {
+            getNext().insert(element);
+        }
 	}
 
 	@Override
 	public void remove(T element) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented yet!");
+	    if(isEmpty())    
+            return;
+        if(getData().equals(element)) {
+            if(getNext().isEmpty()) {
+                setData(null);
+                setNext(null);
+                return;
+            }
+            else {
+                setData(getNext().getData());
+                getNext().setData(element);
+            }
+        } 
+        getNext().remove(element);
 	}
 
 	@Override
 	public T[] toArray() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented yet!");
+        ArrayList<T> list = new ArrayList<>();
+        toArray(list); 
+        return list.toArray((T[]) new Object[list.size()]);
 	}
+
+    private void toArray(ArrayList<T> list) {
+        if(!isEmpty()) {
+            list.add(this.data);
+            this.next.toArray(list);
+        }
+    }
 
 	public T getData() {
 		return data;
