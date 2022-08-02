@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
-        SingleLinkedListImpl<Integer> lista = new SingleLinkedListImpl<>();
+        DoubleLinkedListImpl<Integer> lista = new DoubleLinkedListImpl<>();
         lista.insert(12);
         lista.insert(7);
         lista.insert(9);
