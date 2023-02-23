@@ -3,11 +3,11 @@ adt/stack/Stack.class
 adt/stack/StackOverflowException.class
 adt/linkedList/DoubleLinkedListImpl.class
 adt/stack/StackUnderflowException.class
-adt/linkedList/RecursiveDoubleLinkedListImpl.class
 adt/linkedList/RecursiveSingleLinkedListImpl.class
+adt/linkedList/RecursiveDoubleLinkedListImpl.class
 adt/linkedList/DoubleLinkedListNode.class
-adt/linkedList/SingleLinkedListNode.class
 adt/linkedList/SingleLinkedListImpl.class
+adt/linkedList/SingleLinkedListNode.class
 adt/linkedList/LinkedList.class
 adt/linkedList/Main.class
 adt/queue/QueueDoubleLinkedListImpl.class

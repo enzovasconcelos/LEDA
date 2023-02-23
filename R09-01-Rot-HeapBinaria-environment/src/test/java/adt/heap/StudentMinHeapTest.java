@@ -20,8 +20,12 @@ public class StudentMinHeapTest {
 		// TODO Instancie seu comparator para fazer sua estrutura funcionar como
 		// uma min heap aqui. Use instanciacao anonima da interface
 		// Comparator!!!!
-		Comparator<Integer> comparator = null;
-		heap = new HeapImpl<Integer>(comparator);
+		// Comparator<Integer> comparator = null;
+		// heap = new HeapImpl<Integer>(comparator);
+        heap = new HeapImpl<Integer>((Integer value1, Integer value2) -> {
+            // return value1 - value2;
+			return value1.compareTo(value2);
+        });
 	}
 
 	@Test

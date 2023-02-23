@@ -6,11 +6,11 @@ import org.junit.Test;
 
 public class StudentCountLessThanTest {
 
-	private CountLessThanImpl implementation;
+	private CountLessThan implementation;
 	
 	@Before
 	public void setUp() throws Exception {
-		implementation = new CountLessThanImpl();
+		implementation = new CountLessThanImpl2();
 	}
 
 	@Test

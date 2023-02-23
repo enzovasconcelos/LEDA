@@ -13,6 +13,7 @@ public class HashtableElement implements Storable {
 		return this.key.hashCode();
 	}
 
+    // É interessante verificar a chave?
 	@Override
 	public boolean equals(Object obj) {
 		return this.hashCode() == obj.hashCode();
